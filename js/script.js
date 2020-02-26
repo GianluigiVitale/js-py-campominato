@@ -9,53 +9,89 @@ SCOPO DEL GIOCO:
     Al termine della partita il software deve comunicare il punteggio, cioè il numero
     di volte che l’utente ha inserito un numero consentito.
 
+    1. Genero 16 numeri random diversi da 1...100
+        1.1 Creo un array vuoto
+        1.2 Inserisco i numeri delle bombe nell'array
+    2. Selectione utente
+        2.1 Creo un array vuoto per i tentativi
+        2.2 Chiediamo un numero da 1...100
+    3. Logica del gioco
+        - Ripetizione del numero
+            -Il numero inserito è incluso nell'array dei numeri inseriti
+        - Prendo una bomba
+            -Il numero inserito è incluso nell'array delle bombe
+        - Inserire il numero nell'array dei numeri inseriti
+        - Se lunghezza numeri inseriti è uguale alla lunghezza massima hai vinto
+    ULTIMO. Gestione errori
+        1. Numero >= 1 e numero <= 100
+        2. Numero deve essere un NUMERO
+        3. Difficoltà deve essere un numero e compreso tra 1 e 3
 */
 
-var allNumbers = [];
+var dimensioneCampo = sceltaDifficolta();       // attraverso la funzione sceltaDifficolta seleziono la dimensioneCampo
+var totaleMine = 16;
+var bandierineMax = dimensioneCampo - totaleMine;
 
+var posizioneMine = minaIlCampo(dimensioneCampo, totaleMine);   // attraverso funzione minaIlCampo genero i numeri e li salvo in posizioneMine
+console.log(posizioneMine);
+var bandierinePiazzate = [];
 
-while (allNumbers.length < 16) {                        // genero 16 numeri da 1 a 100, se ci sono dei doppioni non li aggiunge, e continua a generare i numeri fino a che non sono 16
-    var numeroGenerated = generaRandomMinMax(1, 100);
-    if (!allNumbers.includes(numeroGenerated)) {
-        allNumbers.push(numeroGenerated)
+var boom = false;
+while ((bandierinePiazzate.length < bandierineMax) && (boom === false)) {   // finche' o si raggiunge il numero massimo di bandierinePiazzate o non si inserisce un numero gia' presente il ciclo si ripete
+    var bandierinaDaPiazzare = parseInt(prompt('Scrivi un numero da 1 a ' + dimensioneCampo));      // prompt numero da 1 a dimensioneCampo
+    while ((isNaN(bandierinaDaPiazzare)) || (bandierinaDaPiazzare < 1) || (bandierinaDaPiazzare > dimensioneCampo)) {   // controllo se input e' un numero ed e' compreso tra 1 e dimCampo
+        var bandierinaDaPiazzare = parseInt(prompt('Perfavore scrivi un numero da 1 a ' + dimensioneCampo));
+    }
+    if (!bandierinePiazzate.includes(bandierinaDaPiazzare)) {   // SE bandierinaDaPiazzare non e' inclusa in bandierinePiazzate
+        if (!posizioneMine.includes(bandierinaDaPiazzare)) {            // SE bandierinaDaPiazzare non e' in posizioneMine, push in bandierinePiazzate
+            bandierinePiazzate.push(bandierinaDaPiazzare);
+            if (bandierinePiazzate.length == bandierineMax) {                   // SE si raggiunge bandierineMax alert 'hai vinto'
+                alert('Hai Vinto');
+            } else {
+                alert('Hai piazzato una bandierina');                           // ALTRIMENTI notifica che 'hai piazzato una bandierina'
+            }
+        } else {                                                        // ALTRIMENTI fine gioco
+            alert('BOOOM!! hai beccato una bomba! Hai piazzato ' + bandierinePiazzate.length + ' bandierine');
+            boom = true;
+        }
+    } else {                                                    // ALTRIMENTI hai gia' inserito questo numero
+        alert('Hai già inserito questo numero');
     }
 }
 
-for (var i = 1; i <= 84 ; i++) {                                            // per vincere ci devono essere 100 numeri in totale nell'array, per fare cio' se 16 sono generati, al massimo l'utente ne puo' inserirne 84 quindi faccio un ciclo che si ripete massimo 84 volte
-    var numeroUtente = parseInt(prompt('Inserisci un numero tra 1 e 100'));     // prompt numero
-    if (isNaN(numeroUtente)) {                                         // controllo se 'numeroUtente' e' un numero ed e' compreso tra 1 e 100
-        while (isNaN(numeroUtente)) {                                       // se non e' un numero lo chiede
-            numeroUtente = parseInt(prompt('Perfavore Inserisci un numero tra 1 e 100'));
-        }
-        while ((numeroUtente < 1) || (numeroUtente > 100)) {                  // se e' un numero ma non e' compreso tra 1 e 100 ne chiede un altro
-            numeroUtente = parseInt(prompt('Perfavore Inserisci un numero tra 1 e 100'));
-        }
-    } else if (!isNaN(numeroUtente)) {                                 // se e' un numero
-        while ((numeroUtente < 1) || (numeroUtente > 100)) {           // ma non e' compreso tra 1 e 100 ne chiede un altro
-            numeroUtente = parseInt(prompt('Perfavore Inserisci un numero tra 1 e 100'));
-        }
+function sceltaDifficolta() {              // per scegliere la difficolta' prompt con numero da 1 a 3
+    var scelta = parseInt(prompt('Inserisci la difficoltà tra 1, 2 o 3'));
+    while ((isNaN(scelta)) || (scelta < 1) || (scelta > 3)) {
+        var scelta = parseInt(prompt('Perfavore scrivi un numero da 1 a 3'));
     }
-    if (!allNumbers.includes(numeroUtente)) {                   // se numeroUtente non e' presente nell'array lo aggiungo
-        allNumbers.push(numeroUtente)
-    } else {                                                   // altrimenti calcolo il punteggio e breakko il ciclo
-        var punteggio = (allNumbers.length - 16);
-        console.log(':( hai perso punteggio: ' + punteggio);
-        break
+    switch (scelta) {
+        case 1:
+            var dimCampo = 100;
+            break;
+        case 2:
+            var dimCampo = 80;
+            break;
+        case 3:
+            var dimCampo = 50;
+            break;
+        default:
+            var dimCampo = 100;
     }
-    if (i == 84) {                                            // se i = 84 vuol dire che l'utente ha inserito 84 numeri, e 84 + 16 generati = 100, vuol dire che non si possono inserire altri numeri e l'utente ha vinto.
-        console.log('hai vinto');
-    }
+    return dimCampo;
 }
 
-
-
-
-
-
-
-
+function minaIlCampo(dimCampo, totMine) {   // funzione che genera totMine in base a variabile tra un numero 1 e dimCampo (senza doppioni)
+    var posizMine = [];
+    while (posizMine.length < totMine) {
+        var minaDaPiazzare = generaRandomMinMax(1, dimCampo);
+        if (!posizMine.includes(minaDaPiazzare)) {
+            posizMine.push(minaDaPiazzare);
+        }
+    }
+    return posizMine;
+}
 
 function generaRandomMinMax(min, max) { // funzione che genera un numero random tra due valori dati in ingresso MIN e MAX, estremi inclusi
-    var numeroRandom = Math.floor(Math.random() * (max - min + 1) ) + min;
+    var numeroRandom = Math.floor(Math.random() * (max - min + 1)) + min;
     return numeroRandom;
 }
