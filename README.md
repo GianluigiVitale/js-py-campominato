@@ -1,4 +1,4 @@
-# Js-campominato
+# Js-Py-campominato
 The computer generates 16 random numbers from 1 to 100.   
 The user enters one number at a time between 1 to 100.   
 If the number is present in the list of generated numbers, the game ends,   
@@ -16,7 +16,7 @@ Difficulty 3 = 50
 
 I have created 2 versions of the game, one with JavaScript (playable in the browser) and the other with Python.
 ***
-### [Live Version](https://gianluigivitale.github.io/js-campominato/)
+### [Live Version](https://gianluigivitale.github.io/js-py-campominato/)
 ***
 ### Preview:
 ![Preview](img/preview.jpg "Preview")
