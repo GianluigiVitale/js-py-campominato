@@ -1,12 +1,12 @@
 /*
 SCOPO DEL GIOCO:
-    Il computer deve generare 16 numeri casuali tra 1 e 100.
-    In seguito deve chiedere all’utente di inserire un numero alla volta, sempre compreso tra 1 e 100.
+    Il computer genera 16 numeri casuali tra 1 e 100.
+    In seguito chiede all’utente di inserire un numero alla volta, sempre compreso tra 1 e 100.
     Se il numero è presente nella lista dei numeri generati, la partita termina,
     altrimenti si continua chiedendo all’utente un altro numero.
     La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge
     il numero massimo possibile di numeri consentiti.
-    Al termine della partita il software deve comunicare il punteggio, cioè il numero
+    Al termine della partita il software comunica il punteggio, cioè il numero
     di volte che l’utente ha inserito un numero consentito.
 
     1. Genero 16 numeri random diversi da 1...100
@@ -46,7 +46,7 @@ while ((bandierinePiazzate.length < bandierineMax) && (boom === false)) {   // f
         if (!posizioneMine.includes(bandierinaDaPiazzare)) {            // SE bandierinaDaPiazzare non e' in posizioneMine, push in bandierinePiazzate
             bandierinePiazzate.push(bandierinaDaPiazzare);
             if (bandierinePiazzate.length == bandierineMax) {                   // SE si raggiunge bandierineMax alert 'hai vinto'
-                alert('Hai Vinto');
+                alert('Hai Vintoooo !!!!!');
             } else {
                 alert('Hai piazzato una bandierina');                           // ALTRIMENTI notifica che 'hai piazzato una bandierina'
             }
@@ -58,6 +58,12 @@ while ((bandierinePiazzate.length < bandierineMax) && (boom === false)) {   // f
         alert('Hai già inserito questo numero');
     }
 }
+
+
+
+// FUNZIONI UTILIZZATE
+
+
 
 function sceltaDifficolta() {              // per scegliere la difficolta' prompt con numero da 1 a 3
     var scelta = parseInt(prompt('Inserisci la difficoltà tra 1, 2 o 3'));
